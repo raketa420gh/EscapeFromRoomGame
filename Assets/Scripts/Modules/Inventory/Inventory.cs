@@ -5,6 +5,8 @@ using ModestTree;
 public class Inventory
 {
     public InventorySlot[] Slots => _slots.ToArray();
+
+    public event Action OnInventoryStateChanged;
     
     private readonly List<InventorySlot> _slots = new();
 
@@ -27,7 +29,17 @@ public class Inventory
 
         InventorySlot freeSlot = GetFreeSlot();
 
-        return freeSlot != null && freeSlot.AddItem(item);
+        if (freeSlot != null)
+        {
+            bool isItemAdded = freeSlot.AddItem(item);
+            
+            if (isItemAdded)
+                OnInventoryStateChanged?.Invoke();
+
+            return isItemAdded;
+        }
+        
+        throw new NullReferenceException();
     }
 
     public bool RemoveItem(InventoryItem item)
@@ -40,9 +52,16 @@ public class Inventory
 
         InventorySlot slotWithItem = GetItemSlot(item);
 
-        if (slotWithItem != null) 
-            return slotWithItem.RemoveItem();
+        if (slotWithItem != null)
+        {
+            bool isItemRemoved = slotWithItem.RemoveItem();
+            
+            if (isItemRemoved)
+                OnInventoryStateChanged?.Invoke();
 
+            return isItemRemoved;
+        }
+        
         throw new NullReferenceException();
     }
 

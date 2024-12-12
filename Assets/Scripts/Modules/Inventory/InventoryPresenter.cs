@@ -1,15 +1,18 @@
 using System;
+using UnityEngine;
 using Zenject;
 
 public class InventoryPresenter : IInitializable, IDisposable
 {
     private readonly Inventory _inventory;
     private readonly InventoryView _inventoryView;
+    private readonly GameObject _slotViewPrefab;
 
-    public InventoryPresenter(Inventory inventory, InventoryView inventoryView)
+    public InventoryPresenter(Inventory inventory, InventoryView inventoryView, GameObject slotViewPrefab)
     {
         _inventory = inventory;
         _inventoryView = inventoryView;
+        _slotViewPrefab = slotViewPrefab;
     }
 
     void IInitializable.Initialize()

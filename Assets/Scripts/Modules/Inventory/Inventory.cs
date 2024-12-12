@@ -4,6 +4,8 @@ using ModestTree;
 
 public class Inventory
 {
+    public InventorySlot[] Slots => _slots.ToArray();
+    
     private readonly List<InventorySlot> _slots = new();
 
     public Inventory(int capacity)

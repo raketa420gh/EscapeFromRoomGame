@@ -1,10 +1,13 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InventorySlotView : MonoBehaviour
 {
+    public event Action OnSlotButtonClicked;
+    
     [SerializeField]
     private Button _slotButton;
 
@@ -13,6 +16,16 @@ public class InventorySlotView : MonoBehaviour
 
     [SerializeField]
     private TMP_Text _itemNameText;
+
+    private void OnEnable()
+    {
+        _slotButton.onClick.AddListener(() => OnSlotButtonClicked?.Invoke());
+    }
+
+    private void OnDisable()
+    {
+        _slotButton.onClick.RemoveListener(() => OnSlotButtonClicked?.Invoke());
+    }
 
     public void SetSlotItem(InventoryItem item)
     {

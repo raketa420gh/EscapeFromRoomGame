@@ -1,4 +1,5 @@
 using System;
+
 public class InventorySlot
 {
     public bool IsEmpty => _slotItem == null;

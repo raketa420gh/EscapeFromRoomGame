@@ -5,16 +5,19 @@ public class InventoryInstaller : MonoInstaller
 {
     [SerializeField]
     private InventoryView _inventoryView;
+    
+    [SerializeField]
+    private InventorySlotPresenter _slotPresenterPrefab;
 
     [SerializeField]
-    private GameObject _slotViewPrefab;
+    private int _capacity = 10;
 
     public override void InstallBindings()
     {
         Container
             .BindInterfacesAndSelfTo<InventoryPresenter>()
             .AsSingle()
-            .WithArguments(new Inventory(10), _inventoryView, _slotViewPrefab)
+            .WithArguments(new Inventory(_capacity), _inventoryView, _slotPresenterPrefab)
             .NonLazy();
     }
 }
